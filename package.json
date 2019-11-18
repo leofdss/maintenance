@@ -8,5 +8,12 @@
     "start": "node app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
+    "mongodb": "^3.3.4",
+    "rimraf": "^3.0.0",
+    "zip-folder": "^1.0.0"
+  }
 }
