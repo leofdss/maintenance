@@ -3,6 +3,13 @@ const exec = require('child_process').exec;
 const zipFolder = require('zip-folder');
 const rimraf = require('rimraf');
 
+const upload  = require('./lib/upload');
+
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
+const frequency = 24 * hour;
+
 //backup mongodb database
 const cmd = 'mongodump --forceTableScan';
 console.log('DB backup started ... ');
@@ -22,25 +29,33 @@ function initMongo(callback) {
     });
 }
 
-exec(cmd, function (error, stdout, stderr) {
-    if (!error) {
-        console.log('DB backup generated ... ');
+function init() {
+    exec(cmd, function (error, stdout, stderr) {
+        if (!error) {
+            console.log('DB backup generated ... ');
 
-        //zip backup
-        zipFolder(
-            __dirname + '/dump', //source
-            __dirname + '/dump.zip', //destination
-            function (err) {
-                if (err) {
-                    console.log('Zip error ... ');
-                    console.log('oh no!', err);
-                } else {
-                    console.log('Backup zipped successful');
-                    rimraf(__dirname + '/dump', function () {
-                        console.log('/dump deleted');
-                    });
+            //zip backup
+            zipFolder(
+                __dirname + '/dump', //source
+                __dirname + '/dump.zip', //destination
+                function (err) {
+                    if (err) {
+                        console.log('Zip error ... ');
+                        console.log('oh no!', err);
+                    } else {
+                        console.log('Backup zipped successful');
+                        upload();
+                        rimraf(__dirname + '/dump', function () {
+                            console.log('/dump deleted');
+                        });
+                    }
                 }
-            }
-        );
-    }
-});
+            );
+        } else {
+            console.log('oh no!', error);
+        }
+    });
+}
+
+init();
+setInterval(() => { init(); }, frequency);
