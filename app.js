@@ -11,7 +11,7 @@ const hour = 60 * minute;
 const frequency = 24 * hour;
 
 //backup mongodb database
-const cmd = 'mongodump --forceTableScan';
+const cmd = 'mongodump  --host="192.168.1.190" --port=27017 --forceTableScan';
 console.log('DB backup started ... ');
 console.log(cmd);
 
@@ -30,7 +30,9 @@ function initMongo(callback) {
 }
 
 function init() {
+    console.log('init');
     exec(cmd, function (error, stdout, stderr) {
+        console.log(stdout, stderr)
         if (!error) {
             console.log('DB backup generated ... ');
 

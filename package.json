@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "prod": "sudo docker-compose -f 'docker-compose.yml' up -d --build"
   },
   "author": "",
   "license": "ISC",

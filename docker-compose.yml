@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  maintenance:
+    image: maintenance
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 28017:27017
