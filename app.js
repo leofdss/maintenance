@@ -1,33 +1,28 @@
-const MongoClient = require('mongodb').MongoClient;
 const exec = require('child_process').exec;
 const zipFolder = require('zip-folder');
 const rimraf = require('rimraf');
 
-const upload  = require('./lib/upload');
+const upload = require('./lib/upload');
 
 const second = 1000;
 const minute = 60 * second;
 const hour = 60 * minute;
 const frequency = 24 * hour;
 
+const base = '--host 172.25.0.1 --port 27017';
+const login = '--username root --password "root"';
+const auth = '--authenticationDatabase=admin --authenticationMechanism=SCRAM-SHA-1';
+
 //backup mongodb database
-const cmd = 'mongodump  --host="192.168.1.190" --port=27017 --forceTableScan';
+const cmd = [
+    'mongodump',
+    base,
+    login,
+    auth,
+    '--forceTableScan'
+].join(' ');
 console.log('DB backup started ... ');
 console.log(cmd);
-
-function initMongo(callback) {
-    const c = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    };
-    MongoClient.connect('mongodb://localhost:27017/tizza', c, function (err, client) {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null, client);
-        }
-    });
-}
 
 function init() {
     console.log('init');

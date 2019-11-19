@@ -5,5 +5,4 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install --production --silent && mv node_modules ../
 COPY . .
 RUN apk add --no-cache mongodb-tools
-EXPOSE 27017
 CMD npm start
