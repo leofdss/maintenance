@@ -1,0 +1,23 @@
+version: "2.1"
+
+services:
+  mongo:
+    image: mongo
+    build: .
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    networks:
+      rede:
+        ipv4_address: 172.25.0.2
+
+networks:
+  rede:
+    driver: bridge
+    name: tizza
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+          gateway: 172.25.0.1
