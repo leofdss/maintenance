@@ -50,7 +50,7 @@ function init() {
 }
 
 /** 
-         * * * * * *
+        * * * * * *
         | | | | | |
         | | | | | day of week
         | | | | month
