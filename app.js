@@ -4,11 +4,6 @@ const rimraf = require('rimraf');
 
 const upload = require('./lib/upload');
 
-const second = 1000;
-const minute = 60 * second;
-const hour = 60 * minute;
-const frequency = 24 * hour;
-
 const base = '--host 172.25.0.1 --port 27017';
 const login = '--username root --password "root"';
 const auth = '--authenticationDatabase=admin --authenticationMechanism=SCRAM-SHA-1';
@@ -54,5 +49,19 @@ function init() {
     });
 }
 
-init();
-setInterval(() => { init(); }, frequency);
+/** 
+         * * * * * *
+        | | | | | |
+        | | | | | day of week
+        | | | | month
+        | | | day of month
+        | | hour
+        | minute
+        second ( optional )
+*/
+
+const CronJob = require('cron').CronJob;
+const job = new CronJob('0 0 20 * * *', function () {
+    init();
+});
+job.start();
